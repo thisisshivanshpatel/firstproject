@@ -426,6 +426,11 @@ function pause_record(){
       reply="yes";
       AIreply(reply);
     }
+
+      else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update")) 
+    {
+        getCovidapi(b);
+    }
     else if (b.includes("what's the weather in")) {
           getTheWeather(b);
       }
@@ -1066,4 +1071,33 @@ function showError(error){
 
  //-----------------------------------------------------------------------------------------------
 
+  //----------------------- corona virus Api ------------------------------------
  
+  async function getCovidapi(b) {
+   const jsondata=await fetch('https://api.covid19api.com/summary');
+    const jsdata=await jsondata.json();
+    //  console.log(jsdata);
+    //  console.log(jsdata.statewise[1]);
+   // console.log(jsdata.Countries[76]);
+    const country_name=jsdata.Countries[76];
+
+    if (b.includes("corona virus cases in india")) {
+      const a=`in ${country_name.Country} there is ${country_name.NewConfirmed} new confirmed cases on ${country_name.Date}`;
+      AIreply(a);
+    }
+    else
+    {
+       const a=`New confirmed cases=>${country_name.NewConfirmed}
+        New Death=>${country_name.NewDeaths}
+        New Recovered=>${country_name.NewRecovered}
+        Total confirmed=>${country_name.TotalConfirmed}
+        Total Death=>${country_name.TotalDeaths}
+        Total Recovered=>${country_name.TotalRecovered}
+       `;
+       AIreply(a);
+    }
+  }
+
+
+
+ //-----------------------------------------------------------------------------
