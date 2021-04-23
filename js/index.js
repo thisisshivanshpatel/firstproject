@@ -427,7 +427,7 @@ function pause_record(){
       AIreply(reply);
     }
 
-      else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update")) 
+      else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update") || b.includes("coronavirus cases") || b.includes("covid19 cases")) 
     {
         getCovidapi(b);
     }
@@ -1080,19 +1080,32 @@ function showError(error){
     //  console.log(jsdata.statewise[1]);
    // console.log(jsdata.Countries[76]);
     const country_name=jsdata.Countries[76];
-
-    if (b.includes("corona virus cases in india")) {
+   
+     //Generate a random number for image
+     let val=Math.floor(Math.random() * 2 + 1)
+  
+     if (val==2) {
+     a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619151593/Veronica/Pngtree_covid_19_text_and_virus_5340176_t13wkl.png"; 
+     covid19_img(a);
+   }
+    else
+    {
+      a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619152935/Veronica/Pngtree_red_covid-19_bacteria_isolated_on_5340587_nq3cnw.png";
+      covid19_img(a);
+    } 
+//--------------------------outputing cases ---------------------------------------
+    if (b.includes("corona virus cases in india") || b.includes("coronavirus cases") || b.includes("covid19 cases")) {
       const a=`in ${country_name.Country} there is ${country_name.NewConfirmed} new confirmed cases on ${country_name.Date}`;
       AIreply(a);
     }
     else
     {
-       const a=`New confirmed cases=>${country_name.NewConfirmed}
-        New Death=>${country_name.NewDeaths}
-        New Recovered=>${country_name.NewRecovered}
-        Total confirmed=>${country_name.TotalConfirmed}
-        Total Death=>${country_name.TotalDeaths}
-        Total Recovered=>${country_name.TotalRecovered}
+       const a=`New confirmed cases is ${country_name.NewConfirmed}
+        New Death is ${country_name.NewDeaths}
+        New Recovered is ${country_name.NewRecovered}
+        Total confirmed is ${country_name.TotalConfirmed}
+        Total Death is ${country_name.TotalDeaths}
+        Total Recovered is ${country_name.TotalRecovered}
        `;
        AIreply(a);
     }
@@ -1100,4 +1113,13 @@ function showError(error){
 
 
 
+  function covid19_img(a){  //function 
+    var new_img=document.createElement("img");
+     new_img.setAttribute('src',a);
+     new_img.setAttribute('height', '150');
+     new_img.setAttribute('width', '170');
+      div=document.getElementById("Textdemo");
+      div.appendChild(new_img);
+
+   }
  //-----------------------------------------------------------------------------
