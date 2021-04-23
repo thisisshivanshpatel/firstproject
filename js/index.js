@@ -431,7 +431,7 @@ function pause_record(){
     {
         getCovidapi(b);
     }
-    else if (b.includes("what's the weather in")) {
+    else if (b.includes("what's the weather in ")) {
           getTheWeather(b);
       }
 
@@ -1014,24 +1014,32 @@ function showError(error){
 
   //---------------------------------------------------------------------------------------------
                              //weather
-/*
-  const getTheWeather = (speech) => {
-  fetch(`http://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[5]}&appid=58b6f7c78582bffab3936dac99c31b25&units=metric`) 
+ const getTheWeather = (speech) => {
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[4]}&units=metric&appid=bdf930e0a615fa7b9e374e0dd0fdbf8b`) 
   .then(function(response){
     return response.json();
   })
   .then(function(weather){
-    if (weather.cod === '404') {
-      utterThis = new SpeechSynthesisUtterance(`I cannot find the weather for ${speech.split(' ')[5]}`);
-      synth.speak(utterThis);
-      return;
+   let val=Math.floor(Math.random() * 2 + 1)
+
+    if (val=="2") {
+        a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619183955/Veronica/weather_pagaie.png";
+        covid19_img(a);      
     }
-    utterThis = new SpeechSynthesisUtterance(`the weather condition in ${weather.name} is mostly full of ${weather.weather[0].description} at a temperature of ${weather.main.temp} degrees Celcius`);
-    synth.speak(utterThis);
+    else
+    {
+       a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619183955/Veronica/cloudy_fjturp.png";
+       covid19_img(a);
+    }
+
+    if (weather.cod === '404') {
+      utterThis =`I cannot find the weather for ${speech.split(' ')[4]}`;
+      AIreply(utterThis);
+    }
+    utterThis =`the weather condition in ${weather.name} is mostly full of ${weather.weather[0].description} at a temperature of ${weather.main.temp} degrees Celcius`;
+    AIreply(utterThis);
   });
-};*/
-
-
+};
 
 //--------------------------------------------------------------------------------------------------
 //                       ****** AutoScroll *******
