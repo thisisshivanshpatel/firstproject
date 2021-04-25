@@ -431,7 +431,7 @@ function pause_record(){
     {
         getCovidapi(b);
     }
-    else if (b.includes("what's the weather in ")) {
+    else if (b.includes("what's the weather in ") || b.includes("what is the weather in ")) {
           getTheWeather(b);
       }
 
@@ -1015,7 +1015,22 @@ function showError(error){
   //---------------------------------------------------------------------------------------------
                              //weather
  const getTheWeather = (speech) => {
-  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[4]}&units=metric&appid=bdf930e0a615fa7b9e374e0dd0fdbf8b`) 
+  
+ let n;
+ 
+ if (speech.includes("what's the weather in ")) {
+      n=4;
+ }
+ else if (speech.includes("what is the weather in ")) {
+    n=5;
+ }
+ else
+ {
+    AIreply("Please try to say what's the weather in and then city name or what is the weather in and then city name");
+ }
+
+
+  fetch(`https://api.openweathermap.org/data/2.5/weather?q=${speech.split(' ')[n]}&units=metric&appid=bdf930e0a615fa7b9e374e0dd0fdbf8b`) 
   .then(function(response){
     return response.json();
   })
@@ -1033,7 +1048,7 @@ function showError(error){
     }
 
     if (weather.cod === '404') {
-      utterThis =`I cannot find the weather for ${speech.split(' ')[4]}`;
+      utterThis =`I cannot find the weather for ${speech.split(' ')[n]}`;
       AIreply(utterThis);
     }
     utterThis =`the weather condition in ${weather.name} is mostly full of ${weather.weather[0].description} at a temperature of ${weather.main.temp} degrees Celcius`;
