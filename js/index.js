@@ -1037,7 +1037,7 @@ function showError(error){
   .then(function(weather){
    let val=Math.floor(Math.random() * 2 + 1)
 
-    if (val=="2") {
+    if (val==2) {
         a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619183955/Veronica/weather_pagaie.png";
         covid19_img(a);      
     }
