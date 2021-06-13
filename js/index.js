@@ -57,18 +57,25 @@ recognition.onresult = function(event) {
     
     //-----------------------------------------BUTTON-------------------------------------------------------
            
-  function start_record() {
-  if (noteContent.length) {
-    noteContent += ' ';
-  }
-  recognition.start();
-}
-
-
-function pause_record(){
-  recognition.stop();
-  instructions.text('Voice recognition paused.');
-}
+    function start_record() {
+      if (noteContent.length) {
+        noteContent += ' ';
+      }
+      document.getElementById("micoff").style.display="block";
+      document.getElementById("hrf").style.display="none";
+      recognition.start();
+    }
+    
+    
+    function pause_record(){
+      
+      document.getElementById("micoff").style.display="none";
+      document.getElementById("hrf").style.display="block";
+    
+      recognition.stop();
+      instructions.text('Voice recognition paused.');
+    }
+     
            
      //------------------------------------------------------------------------------------------------------
 
@@ -257,12 +264,6 @@ function pause_record(){
     else if (b.includes("roll a dice") || b.includes("roll the dice")) {
       PROBABILITY.rolladice();
     }
-    else if (b.includes("latest news") || b.includes("local news") || b.includes("indian news")) {
-                   news();
-    }
-    else if (b.includes("tech news")) {
-      science_news();
-    }
      else if (b.includes("stop") && b.includes("listening")) {
       responsiveVoice.speak("ok microphone is turned off");
       pause_record();
@@ -427,7 +428,7 @@ function pause_record(){
       AIreply(reply);
     }
 
-      else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update") || b.includes("coronavirus cases") || b.includes("covid19 cases")) 
+    else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update") || b.includes("coronavirus cases") || b.includes("covid19 cases") || b.includes("covid-19 cases") || b.includes("corona cases")) 
     {
         getCovidapi(b);
     }
@@ -800,53 +801,6 @@ function calculate(b){ //function 11
       div=document.getElementById("Textdemo");
       div.appendChild(new_img);
    }
-    //-----------------------------------------------news api------------------------------------------
-
-    function news(){ // fn 23
-      var url = 'http://newsapi.org/v2/top-headlines?' +
-          'country=in&' +
-          'apiKey=5c8b2602da434853821a008884406108';
-var req = new Request(url);
-var i = 0;
-var newstext = "";
-fetch(req)
-    .then(function(response) {
-      //  console.log(response.json());
-      return response.json();
-    })
-     .then(function(myJson) {
-        
-        for (i in myJson.articles) {
-    newstext = newstext +  myJson.articles[i].title + ". "
-}
-  
-  //  responsiveVoice.speak(newstext  ); 
-    AIreply(newstext);
-    });
-    }
-
-    function science_news(){
-
-var url = "http://newsapi.org/v2/top-headlines?country=us&category=science&apiKey=5c8b2602da434853821a008884406108";
-var req = new Request(url);
-var i = 0;
-var news2text = "";
-
-fetch(req)
-    .then(function(response){
-    
-        return response.json();
-    })
-    .then(function(myJson) {
-        
-        for (i in myJson.articles) {
-   news2text= news2text +  myJson.articles[i].title + ". "
-}
-    AIreply(news2text);
-   // responsiveVoice.speak(news2text  ); 
-    });
-}
-
 //--------------------------------------------multiplication table-----------------------------------------
   function printTable(num) {
     var input = num;
