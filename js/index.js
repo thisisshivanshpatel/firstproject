@@ -224,8 +224,7 @@ recognition.onresult = function(event) {
            getnumberfor_timer(b);
       } 
      else if (b.includes("stop") && b.includes("timer")) {
-      a=1;
-      timersecond(a);
+      StopTimer();
      }
     else if (b.includes("what's the time") || b.includes("time")) {
       formatAMPM(new Date);
@@ -377,7 +376,7 @@ recognition.onresult = function(event) {
     }
 
     else if (b.includes("what do you eat") || b.includes("what you eat")) {
-      reply="I think electricity";
+      reply="I think electricity 😂";
       AIreply(reply);
     }
     else if (b.includes("where") && b.includes("are") && b.includes("you") ) {
@@ -886,10 +885,10 @@ function timersecond(a) {
      responsiveVoice.speak("OK timer is set for "+c+" hours");
 };
 
-            
+      var T;      
          function startTimer(duration, display) {
     let timer = duration, minutes, seconds;
-  let T= setInterval(function () {
+   T= setInterval(function () {
         minutes = parseInt(timer / 60, 10);
         seconds = parseInt(timer % 60, 10);
 
@@ -906,65 +905,12 @@ function timersecond(a) {
         }
     }, 1000);
 }
-/*
-function sayhi(){
-  responsiveVoice.speak("Time out Time out");
-}*/
 
-
-//---------------------------------------------------maps-------------------------------------------
-function showPosition(){
-    if(navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(showMap, showError);
-    } else{
-        alert("Sorry, your browser does not support geolocation.");
-    }
+function StopTimer(){
+  document.getElementById("some_div").style.display="none";
+  clearTimeout(T);
+  AIreply("Ok");
 }
- 
-// Define callback function for successful attempt
-function showMap(position){
-    // Get location data
-    lat = position.coords.latitude;
-    long = position.coords.longitude;
-    var latlong = new google.maps.LatLng(lat, long);
-    
-    var myOptions = {
-        center: latlong,
-        zoom: 16,
-        mapTypeControl: true,
-        navigationControlOptions: {style:google.maps.NavigationControlStyle.SMALL}
-    }
-    document.getElementById("sectionM").style.display="block";
-    var map = new google.maps.Map(document.getElementById("sectionM"), myOptions);
-    var marker = new google.maps.Marker({position:latlong, map:map, title:"You are here!"});
-
-}
- 
-// Define callback function for failed attempt
-function showError(error){
-    if(error.code == 1){
-        alert("You've decided not to share your position, but it's OK. We won't ask you again.");
-    } else if(error.code == 2){
-        alert("The network is down or the positioning service can't be reached.");
-    } else if(error.code == 3){
-        alert("The attempt timed out before it could get the location data.");
-    } else{
-        alert("Geolocation failed due to unknown error.");
-    }
-}
-
-//----------------------------------------------------------------------------------------------------
-
-/*  function AIreply(a) {       //function 4
-  var p=document.createElement("p");  //creating a new paragraph
-  var node=document.createTextNode(Nameai+":"+a);  //creating text node
-  responsiveVoice.speak(a); //speak function
-   //adding the text to the paragraph
-   p.appendChild(node);
-   var div=document.getElementById("Textdemo");
-   div.appendChild(p);  
-  } 
-  */
 
   //---------------------------------------------------------------------------------------------
                              //weather
