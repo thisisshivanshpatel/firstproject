@@ -235,9 +235,6 @@ recognition.onresult = function(event) {
     else if (b.includes("+") || b.includes("addition") || b.includes("add")) {
           num_EX(b);
     }
-    else if (b.includes("-") || b.includes("substract") || b.includes("substraction") || b.includes("subtract") || b.includes("subtraction") ) {
-                 num_EX(b);
-    }
      else if (b.includes("multiplication table")) {
                    num_EX(b);
     }
@@ -427,10 +424,14 @@ recognition.onresult = function(event) {
       AIreply(reply);
     }
 
-    else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update") || b.includes("coronavirus cases") || b.includes("covid19 cases") || b.includes("covid-19 cases") || b.includes("corona cases")) 
+    else if (b.includes("corona virus cases in india") || b.includes("corona virus updates") || b.includes("coronavirus updates") || b.includes("corona virus update") || b.includes("coronavirus update") || b.includes("coronavirus cases") || b.includes("covid-19 updates") || b.includes("covid-19 cases") || b.includes("corona cases")) 
     {
         getCovidapi(b);
     }
+    else if (b.includes("-") || b.includes("substract") || b.includes("substraction") || b.includes("subtract") || b.includes("subtraction") ) {
+      num_EX(b);
+}
+
     else if (b.includes("what's the weather in ") || b.includes("what is the weather in ")) {
           getTheWeather(b);
       }
@@ -997,43 +998,41 @@ function StopTimer(){
   //----------------------- corona virus Api ------------------------------------
  
   async function getCovidapi(b) {
-   const jsondata=await fetch('https://api.covid19api.com/summary');
-    const jsdata=await jsondata.json();
-    //  console.log(jsdata);
-    //  console.log(jsdata.statewise[1]);
-   // console.log(jsdata.Countries[76]);
-    const country_name=jsdata.Countries[76];
-   
-     //Generate a random number for image
-     let val=Math.floor(Math.random() * 2 + 1)
+    const jsondata=await fetch('https://api.covid19india.org/data.json');
+     const jsdata=await jsondata.json();
   
-     if (val==2) {
-     a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619151593/Veronica/Pngtree_covid_19_text_and_virus_5340176_t13wkl.png"; 
-     covid19_img(a);
-   }
-    else
-    {
-      a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619152935/Veronica/Pngtree_red_covid-19_bacteria_isolated_on_5340587_nq3cnw.png";
+     const data=jsdata.cases_time_series;
+     const wdata=data[data.length-1];
+      //Generate a random number for image
+      let val=Math.floor(Math.random() * 2 + 1)
+      
+      if (val==2) {
+      a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619151593/Veronica/Pngtree_covid_19_text_and_virus_5340176_t13wkl.png"; 
       covid19_img(a);
-    } 
-//--------------------------outputing cases ---------------------------------------
-    if (b.includes("corona virus cases in india") || b.includes("coronavirus cases") || b.includes("covid19 cases")) {
-      const a=`in ${country_name.Country} there is ${country_name.NewConfirmed} new confirmed cases on ${country_name.Date}`;
-      AIreply(a);
     }
-    else
-    {
-       const a=`New confirmed cases is ${country_name.NewConfirmed}
-        New Death is ${country_name.NewDeaths}
-        New Recovered is ${country_name.NewRecovered}
-        Total confirmed is ${country_name.TotalConfirmed}
-        Total Death is ${country_name.TotalDeaths}
-        Total Recovered is ${country_name.TotalRecovered}
-       `;
+     else
+     {
+       a="https://res.cloudinary.com/du4mbzbao/image/upload/v1619152935/Veronica/Pngtree_red_covid-19_bacteria_isolated_on_5340587_nq3cnw.png";
+       covid19_img(a);
+     }   
+       
+     if (b.includes("corona virus cases in india") || b.includes("coronavirus cases") || b.includes("covid19 cases")) {
+       const a=`in india there is ${wdata.dailyconfirmed} new confirmed cases on ${wdata.date}`;
        AIreply(a);
-    }
-  }
-
+     }
+     else
+     {
+        const a=`New confirmed cases is ${wdata.dailyconfirmed}
+         New Death is ${wdata.dailydeceased}
+         New Recovered is ${wdata.dailyrecovered}
+         Total confirmed is ${wdata.totalconfirmed}
+         Total Death is ${wdata.totaldeceased}
+         Total Recovered is ${wdata.totalrecovered}
+        `;
+        AIreply(a);
+     }
+   }
+ 
 
 
   function covid19_img(a){  //function 
