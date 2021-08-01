@@ -428,6 +428,10 @@ recognition.onresult = function(event) {
     {
         getCovidapi(b);
     }
+     else if(b.includes("covid-19 vaccine") || b.includes("corona virus vaccine") || b.includes("coronavirus vaccine") || b.includes("coronavirus vaccination") || b.includes("covid-19 vaccination"))
+    {
+      getCovidVaccineDetails();
+    }
     else if (b.includes("-") || b.includes("substract") || b.includes("substraction") || b.includes("subtract") || b.includes("subtraction") ) {
       num_EX(b);
 }
@@ -1033,12 +1037,26 @@ function StopTimer(){
      }
    }
  
-
+    async function getCovidVaccineDetails() {
+    const jsondata=await fetch('https://api.covid19india.org/data.json');
+     const jsdata=await jsondata.json();
+  
+     const data=jsdata.tested;
+     const wdata=data[data.length-1];
+   
+    const image="https://res.cloudinary.com/du4mbzbao/image/upload/v1619152975/Veronica/Pngtree_concept_coronavirus_vaccine_covid-19_bottle_5838340_wjeshi.png";
+    covid19_img(image); 
+    
+    const message=`In india ${wdata.firstdoseadministered} first dose administered and
+    ${wdata.seconddoseadministered} second dose administered`;
+    
+    AIreply(message);
+   }
 
   function covid19_img(a){  //function 
     var new_img=document.createElement("img");
      new_img.setAttribute('src',a);
-     new_img.setAttribute('height', '150');
+     new_img.setAttribute('height', '160');
      new_img.setAttribute('width', '170');
       div=document.getElementById("Textdemo");
       div.appendChild(new_img);
